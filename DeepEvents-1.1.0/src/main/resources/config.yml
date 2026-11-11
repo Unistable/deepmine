@@ -1,0 +1,173 @@
+# ============================================================
+#  DeepEvents 1.0.0 — кинематографичные случайные ивенты
+#  Кракен • Ядерный взрыв • Звездопад
+#  Все времена в секундах, если не указано иное.
+# ============================================================
+
+general:
+  # Миры, в которых могут происходить ивенты
+  worlds: [world]
+
+  scheduler:
+    # Автоматический запуск случайных ивентов
+    enabled: true
+    min-interval-minutes: 45
+    max-interval-minutes: 90
+    # Предупреждение за N секунд до старта
+    warn-seconds: 60
+    # Минимум игроков онлайн для автозапуска
+    require-online-players: 1
+    # Веса выпадения (не повторять один и тот же ивент дважды подряд)
+    weights:
+      kraken: 1.0
+      nuke: 1.0
+      starfall: 1.0
+
+  # Ивенты не приходят ближе этого расстояния к игрокам и спавну
+  min-distance-from-players: 120
+  min-distance-from-spawn: 200
+
+# ============================================================
+#  КРАКЕН — босс Бездны
+#  Щит Кракена держат 3 Аколита Бездны на алтарях. Пока живы
+#  аколиты — Кракен неуязвим. Убейте всех — ядро откроется на
+#  vulnerable-seconds. В бою: щупальца (слэмы), цунами-волны
+#  (физичные блоки воды без коллизии), водовороты, отродья.
+#  Лут делится ПОРОВНУ между всеми, кто нанёс урон.
+# ============================================================
+kraken:
+  enabled: true
+  search-radius: 800
+  hp: 600
+  scale: 2.6
+  # Сколько секунд Кракен остаётся в мире, если его не бьют
+  disengage-seconds: 300
+  # Максимальное время ивента
+  despawn-seconds: 900
+
+  shield:
+    acolytes: 3
+    # Окно уязвимости после убийства всех аколитов
+    vulnerable-seconds: 25
+    # Регенерация HP в секунду, пока щит активен
+    regen-per-second: 0.5
+    acolyte-hp: 60
+
+  tentacles:
+    count: 7
+    slam:
+      damage: 8.0
+      radius: 3.0
+      interval-seconds: [9, 15]
+      # Время телеграфа: сужающееся красное кольцо даёт время уйти
+      warn-seconds: 2.5
+
+  waves:
+    amplitude: 1.7          # высота волны (блоки)
+    wavelength: 7.0         # длина волны (блоки)
+    speed: 0.85             # скорость фронта (блоков/тик)
+    width-columns: 11       # ширина фронта (колонн)
+    column-spacing: 1.1     # расстояние между колоннами
+    damage: 5.0
+    interval-seconds: [13, 20]
+    max-distance: 45        # дальность волны (блоки)
+
+  whirlpools:
+    interval-seconds: [11, 17]
+    pull-radius: 7.0
+    damage: 3.0
+    lifetime-seconds: 8
+
+  minions:
+    group-size: 4
+    interval-seconds: 35
+    cap: 8
+
+  loot:
+    - {material: HEART_OF_THE_SEA, min: 1, max: 1, chance: 100}
+    - {material: NAUTILUS_SHELL, min: 3, max: 6, chance: 100}
+    - {material: DIAMOND, min: 4, max: 8, chance: 100}
+    - {material: EMERALD, min: 10, max: 20, chance: 100}
+    - {material: GOLD_INGOT, min: 6, max: 12, chance: 100}
+    - {material: PRISMARINE_CRYSTALS, min: 8, max: 16, chance: 100}
+    - {material: EXPERIENCE_BOTTLE, min: 8, max: 16, chance: 100}
+    - {material: ENCHANTED_BOOK, min: 1, max: 2, chance: 60}
+    - {material: TRIDENT, min: 1, max: 1, chance: 20}
+  trophy:
+    material: HEART_OF_THE_SEA
+    name: "Сердце Кракена"
+
+# ============================================================
+#  ЯДЕРНЫЙ ВЗРЫВ
+#  Сирена -> вспышка -> ударная волна (отбрасывает по радиусу)
+#  -> грибовидное облако -> детализированный кратер (тринитит,
+#  магма, базальт, обугленный лес) -> радиация -> шалкер с грузом
+#  в центре воронки. Откат мира: /deepevents undo
+# ============================================================
+nuke:
+  enabled: true
+  crater-radius: 27
+  crater-depth: 13
+  # Радиус зоны выпадений (множитель от радиуса кратера)
+  fallout-radius-mult: 1.6
+  siren-seconds: 10
+
+  shockwave:
+    range: 70
+    speed: 2.2            # блоков/тик
+    max-damage: 12.0      # урон в эпицентре (линейный спад к краю)
+
+  radiation:
+    # Радиация в кратере действует постоянно (кратер остаётся)
+    permanent: true
+    period-ticks: 70
+    # Случайные негативные эффекты внутри воронки (в тиках)
+    effects:
+      - {type: POISON, duration: 160}
+      - {type: WITHER, duration: 80}
+      - {type: NAUSEA, duration: 240}
+      - {type: HUNGER, duration: 200}
+      - {type: MINING_FATIGUE, duration: 200}
+      - {type: WEAKNESS, duration: 200}
+      - {type: DARKNESS, duration: 120}
+      - {type: SLOWNESS, duration: 200}
+
+  loot:
+    - {material: DIAMOND, min: 6, max: 12, chance: 100}
+    - {material: EMERALD, min: 8, max: 16, chance: 100}
+    - {material: ANCIENT_DEBRIS, min: 2, max: 5, chance: 100}
+    - {material: NETHERITE_INGOT, min: 1, max: 1, chance: 15}
+    - {material: ENCHANTED_GOLDEN_APPLE, min: 1, max: 3, chance: 100}
+    - {material: TOTEM_OF_UNDYING, min: 1, max: 1, chance: 30}
+    - {material: GOLD_BLOCK, min: 2, max: 4, chance: 100}
+    - {material: EXPERIENCE_BOTTLE, min: 16, max: 32, chance: 100}
+    - {material: OBSIDIAN, min: 12, max: 24, chance: 100}
+    - {material: TNT, min: 8, max: 16, chance: 100}
+
+# ============================================================
+#  ЗВЕЗДОПАД — мирный ивент
+#  Ночь, аврора в небе, падающие звёзды оставляют осколки.
+#  3 осколка + Shift+ПКМ = желание (случайный благословение).
+#  ПКМ осколками по игроку = общее желание (оба получают удачу).
+# ============================================================
+starfall:
+  enabled: true
+  duration-seconds: 300
+  # Принудительная ночь на время ивента (время восстанавливается)
+  force-night: true
+  meteor-interval-seconds: [7, 13]
+  shard-despawn-seconds: 90
+
+  wish:
+    cost: 3
+
+  blessings:
+    - {effect: LUCK, seconds: 600, amplifier: 0, name: "Дар удачи", weight: 20}
+    - {effect: REGENERATION, seconds: 120, amplifier: 1, name: "Дыхание звезды", weight: 15}
+    - {effect: SPEED, seconds: 300, amplifier: 1, name: "Благословение ветра", weight: 15}
+    - {effect: NIGHT_VISION, seconds: 600, amplifier: 0, name: "Очи совы", weight: 10}
+    - {effect: ABSORPTION, seconds: 300, amplifier: 2, name: "Звёздный щит", weight: 10}
+    - {effect: FIRE_RESISTANCE, seconds: 300, amplifier: 0, name: "Тепло кометы", weight: 8}
+    - {effect: WATER_BREATHING, seconds: 600, amplifier: 0, name: "Дар глубин", weight: 7}
+    - {effect: JUMP_BOOST, seconds: 300, amplifier: 1, name: "Прыжок кометы", weight: 8}
+    - {effect: GLOWING, seconds: 60, amplifier: 0, name: "Свет звезды", weight: 2}

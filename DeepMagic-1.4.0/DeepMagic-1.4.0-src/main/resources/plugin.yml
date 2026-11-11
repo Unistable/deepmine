@@ -1,0 +1,26 @@
+name: DeepMagic
+version: 1.4.0
+main: ru.deepmagic.DeepMagicPlugin
+api-version: '1.21'
+depend: [DeepProgression]
+softdepend: [DeepSpawn]
+description: "Магический арсенал DeepProgression v1.4 MENU: меню-арсенал (/mage) с крафтами всех посохов, каталогом, синергиями и профилем + 73 посоха с эпичными визуалами и внятными механиками."
+author: Z.ai
+website: https://z.ai
+commands:
+  deepmagic:
+    description: "Меню магии DeepMagic (крафты, каталог, синергии)"
+    usage: "/mage — Магический Арсенал (админ: give|selftest|reload)"
+    aliases: [mage, dm]
+    permission: deepmagic.use
+  dmtest:
+    description: "Функциональные тесты DeepMagic (админ)"
+    usage: "/dmtest <compressor|burn|burnwet|gui|fx|clean>"
+    permission: deepmagic.admin
+permissions:
+  deepmagic.use:
+    description: Доступ к магии DeepMagic
+    default: true
+  deepmagic.admin:
+    description: Административные команды (give, reload, selftest)
+    default: op

@@ -1,0 +1,21 @@
+name: DeepEvents
+version: 1.1.0
+main: ru.deepevents.DeepEventsPlugin
+api-version: '1.21'
+description: "Кинематографичные случайные ивенты: Кракен (босс с аколитами и физичными волнами), Ядерный взрыв (детализированный кратер, радиация, груз), Звездопад (мирный ивент с авророй и желаниями)."
+author: Z.ai
+website: https://z.ai
+softdepend: [WorldGuard, Towny, CoreProtect]
+commands:
+  deepevents:
+    description: Управление случайными ивентами DeepEvents
+    usage: "/deepevents <status|trigger|stop|undo|selftest|reload|help>"
+    aliases: [events, devents]
+    permission: deepevents.use
+permissions:
+  deepevents.use:
+    description: Просмотр статуса ивентов
+    default: true
+  deepevents.admin:
+    description: Управление ивентами (trigger, stop, undo, reload, selftest)
+    default: op

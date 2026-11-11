@@ -1,0 +1,20 @@
+name: DeepProgression
+version: 3.2.1
+main: ru.deepprogression.DeepProgressionPlugin
+api-version: '1.21'
+description: "Глубокая прогрессия по всем блокам игры v3.2: 11 секций, 73 ветки, ~420 инструментов, приспособления каждой секции (10 гаджетов + 20 машин), перки (пассивные + активные), глобальная экономика, хранилища. Без дюпов и абузов."
+author: Z.ai
+website: https://z.ai
+commands:
+  deepprogression:
+    description: Меню прогрессии профессий и управление DeepProgression
+    usage: /dp <menu|progress|crafts|stats|top|quests|perks|economy|medals|give|reload|selftest|help>
+    aliases: [dp]
+    permission: deepprogression.use
+permissions:
+  deepprogression.use:
+    description: Доступ к меню и прогрессии
+    default: true
+  deepprogression.admin:
+    description: Административные команды (give, reload, selftest)
+    default: op

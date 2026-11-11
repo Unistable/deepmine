@@ -1,0 +1,178 @@
+# ============================================================
+#  DeepProgression v3.2.0 — глубокая прогрессия по всем блокам игры
+#  11 секций · 73 ветки · ~420 инструментов · машины · хранилища
+#  приспособления секций · перки · глобальная экономика
+#  Все числа можно менять на ходу (/dp reload, кроме крафтов —
+#  они регистрируются при старте сервера).
+# ============================================================
+
+# Список миров, где работает DeepProgression. Пусто = во всех мирах.
+worlds: []
+
+# Множители дропа инструментов (за блок). По умолчанию берутся из
+# реестра инструментов: COMMON 25/50/100, MEDIUM 15/30/60, RARE 8/15/30,
+# камень 3/6/10. Здесь можно переопределить любой tool_...
+# Примеры:
+# multipliers:
+#   tool_coal_3: 100      # флагман угольной ветки (по ТЗ ×100)
+#   tool_stone_1: 3
+#   universal_mining_3: 50
+
+# Шансы добыть бонусный материал "из камня" (для шахтёрской секции).
+from_stone:
+  universal: 0.25         # универсалы шахтёров: 25% уголь из камня
+  geologist_pick: 0.25
+  tool_stone_1: 0.15      # камнерезные буры дают уголь
+  tool_stone_2: 0.20
+  tool_stone_3: 0.25
+  tool_coal_1: 0.10
+  tool_coal_2: 0.15
+  tool_coal_3: 0.25
+
+progression:
+  thresholds:
+    common:   [64, 256, 1024, 4096, 10240, 25000, 50000, 100000, 250000, 500000]
+    medium:   [32, 128, 512, 2048, 5120, 12500, 25000, 50000, 125000, 250000]
+    rare:     [16, 64, 256, 1024, 2560, 6250, 12500, 25000, 62500, 125000]
+  weights:
+    STONE: 0.5
+    COAL: 1.0
+    COPPER: 1.0
+    IRON: 1.2
+    GOLD: 2.0
+    REDSTONE: 1.5
+    LAPIS: 1.5
+    QUARTZ: 1.5
+    DIAMOND: 4.0
+    EMERALD: 5.0
+    DEBRIS: 8.0
+    AMETHYST: 1.5
+  creative_counts: false
+
+chunk_drill:
+  magma_cost: 128         # магмовых блоков на полный заряд
+  efficiency: 0.9         # доля руд, попадающих в хранилище бура
+  cooldown_seconds: 30
+  max_units: 20000
+
+prospector:
+  max_charges: 8
+  cooldown_seconds: 3
+
+battery:
+  charges: 2
+
+medals:
+  give_item: true
+  broadcast_from_tier: 8
+
+general:
+  auto_pickup: true       # авто-подбор ресурсов в тайник/инвентарь
+  auto_pickup_chunk: 0.05 # шанс частиц-эффекта
+
+storage:
+  pouch_max_units: 1728   # жёсткий лимит 27×64 (анти-потеря)
+
+charge_station:
+  min_magma: 5
+  cooldown_seconds: 60
+  probe_charges: 3
+
+geo_scanner:
+  cooldown_seconds: 30
+
+machines:
+  cooldown_seconds: 2     # общий кулдаун секционных машин
+  bulk_multiplier: 8      # v3.1: циклов за Shift+ПКМ (bulk-режим)
+
+# v3.2: ручные приспособления секций (кулдауны в секундах, эффекты)
+gadgets:
+  pruner:
+    cooldown: 2           # Сучкорез: листва 3×3×3 вокруг прицельного бревна
+  seeder:
+    cooldown: 2           # Ручная сеялка: посев 3×3 семенами из инвентаря
+  bonewand:
+    cooldown: 4           # Костяной веер: +1 стадия роста 3×3 (3 костной муки)
+  air_tank:
+    cooldown: 1           # Дыхательный баллон: заряды, заряжается батареей
+    breath: 120           # сек дыхания под водой
+    grace: 60             # сек грации дельфина
+  trowel:
+    cooldown: 3           # Шпатель бетонщика: порошок → бетон 3×3×3
+  lightwand:
+    cooldown: 1           # Жезл световода: свет в точку прицела (до 12 бл.)
+  oiler:
+    cooldown: 300         # Инженерная маслёнка: сброс кулдауна машины
+  thermos:
+    cooldown: 30          # Магмовый термос: огнестойкость за магму
+    magma: 4              # расход магмы за активацию
+    duration: 90          # сек огнестойкости
+  voidsail:
+    cooldown: 15          # Парус пустоты: медленное падение за жемчуг
+    duration: 60          # сек медленного падения
+  jammer:
+    cooldown: 120         # Глушитель эха: сенсоры не слышат
+    duration: 90          # сек тишины
+
+lucky_veins:
+  chance: 0.003           # шанс жилы удачи при добыче руды
+  multiplier: 25
+  broadcast_rare: true
+
+perks:
+  double_drop_from_tier: 4
+  double_drop_chance_per_tier: 0.02
+  double_drop_chance_cap: 0.10
+  # v3.1: шансы «+1» перков (переопределяются по id перка)
+  chances:
+    wood_replant: 0.25
+    farm_replant: 0.50
+    farm_bonus: 0.25
+    farm_honey: 0.20
+    flora_mush: 0.20
+    wood_leaf: 0.20
+  # v3.1: шансы двойного дропа секционных перков (переопределяются по id)
+  section_double:
+    mine_double: 0.10
+    wood_double: 0.10
+    farm_double: 0.10
+    flora_double: 0.15
+    sea_double: 0.15
+    mason_double: 0.15
+    light_double: 0.15
+    engine_double: 0.15
+    nether_double: 0.15
+    end_double: 0.15
+    sculk_double: 0.15
+
+# v3.1: кулдауны активных перков (кристаллов), секунды
+actives:
+  mining_cooldown: 300
+  wood_cooldown: 180
+  farm_cooldown: 180
+  flora_cooldown: 120
+  sea_cooldown: 120
+  mason_cooldown: 60
+  light_cooldown: 120
+  engine_cooldown: 240
+  nether_cooldown: 240
+  end_cooldown: 90
+  anomaly_cooldown: 180
+
+# v3.1: глобальная экономика ресурсов.
+# index = clamp(1..10, round(V / (1 + log10(1 + total/5000))))
+# V — собственная ценность (можно переопределить: values: DIAMOND: 9),
+# total — добыто всеми игроками за всю историю сервера.
+economy:
+  supply_divisor: 5000    # чем больше — тем медленнее падает индекс от добычи
+  values:
+    NETHERITE_INGOT: 10
+    DIAMOND: 9
+    EMERALD: 9
+    ECHO_SHARD: 9
+    COAL: 4
+    WHEAT: 2
+    SAND: 1
+
+quests:
+  per_day: 3
